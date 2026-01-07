@@ -12,51 +12,41 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-bold">Jay Anand</span>
+        <Link href="/" className="flex items-center gap-2 group">
+          <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent group-hover:from-primary/80 group-hover:to-primary transition-all duration-300">
+            Jay Anand
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex gap-6">
           <Link
             href="/#about"
-            className="text-sm font-medium hover:text-primary transition-colors"
+            className="text-sm font-medium hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full"
           >
             About
           </Link>
           <Link
             href="/skills"
-            className="text-sm font-medium hover:text-primary transition-colors"
+            className="text-sm font-medium hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full"
           >
             Skills
           </Link>
           <Link
             href="/projects"
-            className="text-sm font-medium hover:text-primary transition-colors"
+            className="text-sm font-medium text-primary hover:text-primary/80 transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-primary"
           >
             Projects
           </Link>
           <Link
             href="/education"
-            className="text-sm font-medium hover:text-primary transition-colors"
+            className="text-sm font-medium hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full"
           >
             Education
           </Link>
           <Link
-            href="/experience"
-            className="text-sm font-medium hover:text-primary transition-colors"
-          >
-            Experience
-          </Link>
-          <Link
-            href="/certifications"
-            className="text-sm font-medium hover:text-primary transition-colors"
-          >
-            Certifications
-          </Link>
-          <Link
             href="/contact"
-            className="text-sm font-medium hover:text-primary transition-colors"
+            className="text-sm font-medium hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full"
           >
             Contact
           </Link>
@@ -64,7 +54,7 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-4">
           <ModeToggle />
-          <Button asChild>
+          <Button asChild className="hover:scale-105 transition-transform duration-200">
             <Link href="/contact">Get in Touch</Link>
           </Button>
         </div>
@@ -88,7 +78,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden container py-4 pb-6 border-b">
+        <div className="md:hidden container py-4 pb-6 border-b bg-background/98 backdrop-blur">
           <nav className="flex flex-col gap-4">
             <Link
               href="/#about"
@@ -106,7 +96,7 @@ export default function Navbar() {
             </Link>
             <Link
               href="/projects"
-              className="text-sm font-medium hover:text-primary transition-colors"
+              className="text-sm font-medium text-primary"
               onClick={() => setIsMenuOpen(false)}
             >
               Projects
@@ -117,20 +107,6 @@ export default function Navbar() {
               onClick={() => setIsMenuOpen(false)}
             >
               Education
-            </Link>
-            <Link
-              href="/experience"
-              className="text-sm font-medium hover:text-primary transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Experience
-            </Link>
-            <Link
-              href="/certifications"
-              className="text-sm font-medium hover:text-primary transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Certifications
             </Link>
             <Link
               href="/contact"

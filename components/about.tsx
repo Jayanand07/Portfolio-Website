@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Download } from "lucide-react";
 
 export default function About() {
   return (
@@ -83,10 +84,7 @@ export default function About() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.7 }}
               >
-                I'm an enthusiastic and dedicated Computer Science Engineering
-                student at Lovely Professional University with a strong
-                foundation in programming, operating systems, computer networks,
-                and cybersecurity.
+                I'm a Computer Science Engineering student with a strong focus on cybersecurity, cloud computing, and full-stack web development.
               </motion.p>
 
               <motion.p
@@ -96,11 +94,17 @@ export default function About() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.8 }}
               >
-                Proficient in Java, C++, and familiar with Linux environments
-                and cloud platforms like Oracle HCM. I'm passionate about system
-                administration and information security, with hands-on
-                experience in building small-scale projects and participating in
-                tech workshops.
+                I have hands-on experience building secure, scalable applications, working with Linux environments, cloud platforms, authentication systems, and modern web technologies.
+              </motion.p>
+
+              <motion.p
+                className="text-muted-foreground leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.85 }}
+              >
+                My interests include system security, cloud infrastructure, and solving real-world problems through clean, efficient code.
               </motion.p>
 
               <motion.p
@@ -110,9 +114,7 @@ export default function About() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.9 }}
               >
-                Currently based in New Delhi, India, I'm actively seeking
-                opportunities to apply my skills in real-world scenarios and
-                contribute to innovative technology solutions.
+                I am actively seeking opportunities to apply my skills, grow professionally, and contribute to impactful technology solutions.
               </motion.p>
             </motion.div>
 
@@ -139,10 +141,11 @@ export default function About() {
                 className="group hover:scale-105 transition-transform duration-200"
               >
                 <Link
-                  href="https://drive.google.com/file/d/15BCs-uc77YMxhAYDb0dPpo43FvNCjSbS/view"
+                  href="https://drive.google.com/file/d/1nbldLP8Q6PP9st3dyIGcF1Tftsr85L5F/view?usp=sharing"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
+                  <Download className="h-4 w-4 mr-2" />
                   <span className="group-hover:translate-x-1 transition-transform duration-200">
                     Download Resume
                   </span>

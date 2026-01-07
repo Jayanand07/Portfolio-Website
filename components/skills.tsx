@@ -1,76 +1,78 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Code, Database, Layout, Server, Shield, Users } from "lucide-react";
+import { Code, Database, Layout, Server, Shield, Users, Cloud } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const skillCategories = [
   {
     id: 1,
-    title: "Programming & Development",
+    title: "Languages",
     icon: <Code className="h-8 w-8 text-primary" />,
-    skills: [
-      "Java",
-      "C++",
-      "Python (basic)",
-      "HTML5",
-      "CSS3",
-      "JavaScript (Basics)",
-      "React.js (beginner)",
-    ],
+    skills: ["Java", "Python", "JavaScript", "C++"],
   },
   {
     id: 2,
-    title: "System & Cloud",
-    icon: <Server className="h-8 w-8 text-primary" />,
-    skills: [
-      "Linux (Ubuntu, Kali)",
-      "Cloud Fundamentals (SaaS, IaaS, PaaS)",
-      "Virtualization (VirtualBox, VMware)",
-      "Oracle Fusion Cloud HCM",
-    ],
+    title: "Frameworks",
+    icon: <Layout className="h-8 w-8 text-primary" />,
+    skills: ["React", "Next.js", "Spring Boot", "FastAPI"],
   },
   {
     id: 3,
-    title: "Networking & Security",
-    icon: <Shield className="h-8 w-8 text-primary" />,
+    title: "Tools & Platforms",
+    icon: <Server className="h-8 w-8 text-primary" />,
     skills: [
-      "Networking (TCP/IP, OSI)",
-      "DNS Configuration",
-      "IP Configuration",
-      "Cybersecurity Fundamentals",
-      "System Security",
+      "Linux",
+      "Git",
+      "GitHub",
+      "MySQL",
+      "MongoDB",
+      "Firebase",
+      "Vercel",
+      "Figma",
+      "Power BI",
     ],
   },
   {
     id: 4,
-    title: "Database & Version Control",
-    icon: <Database className="h-8 w-8 text-primary" />,
-    skills: ["SQL", "Git", "GitHub", "Version Control"],
+    title: "Cloud",
+    icon: <Cloud className="h-8 w-8 text-primary" />,
+    skills: ["AWS", "Microsoft Azure", "Oracle Cloud"],
   },
   {
     id: 5,
-    title: "CS Fundamentals",
-    icon: <Layout className="h-8 w-8 text-primary" />,
+    title: "Cybersecurity",
+    icon: <Shield className="h-8 w-8 text-primary" />,
     skills: [
-      "Data Structures & Algorithms",
-      "Object-Oriented Programming",
-      "Operating Systems",
-      "Computer Networks",
+      "Network Security",
+      "System Security",
+      "OWASP",
+      "Vulnerability Assessment",
+      "Penetration Testing",
+      "SIEM",
+      "Encryption",
     ],
   },
   {
     id: 6,
+    title: "CS Fundamentals",
+    icon: <Database className="h-8 w-8 text-primary" />,
+    skills: [
+      "Data Structures & Algorithms",
+      "Operating Systems",
+      "Computer Networks",
+      "Database Management Systems",
+    ],
+  },
+  {
+    id: 7,
     title: "Soft Skills",
     icon: <Users className="h-8 w-8 text-primary" />,
     skills: [
-      "Collaboration",
-      "Problem-solving",
+      "Problem Solving",
+      "Team Collaboration",
       "Communication",
-      "Time management",
-      "Result-oriented",
-      "Public Speaking",
-      "Research",
+      "Adaptability",
     ],
   },
 ];
@@ -112,12 +114,11 @@ export default function Skills() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            Here are the technologies and skills I've acquired throughout my
-            journey.
+            Technologies and skills I've developed through projects, training, and continuous learning.
           </motion.p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {skillCategories.map((category, index) => (
             <motion.div
               key={category.id}
@@ -126,7 +127,7 @@ export default function Skills() {
               viewport={{ once: true }}
               transition={{
                 duration: 0.6,
-                delay: index * 0.15,
+                delay: index * 0.1,
                 ease: "easeOut",
               }}
               whileHover={{ scale: 1.02, y: -5 }}
@@ -148,7 +149,7 @@ export default function Skills() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <ul className="grid grid-cols-1 gap-3">
+                  <ul className="grid grid-cols-1 gap-2">
                     {category.skills.map((skill, skillIndex) => (
                       <motion.li
                         key={skill}
@@ -158,7 +159,7 @@ export default function Skills() {
                         viewport={{ once: true }}
                         transition={{
                           duration: 0.4,
-                          delay: index * 0.15 + skillIndex * 0.05,
+                          delay: index * 0.1 + skillIndex * 0.05,
                         }}
                       >
                         <div className="w-2 h-2 rounded-full bg-gradient-to-r from-primary to-primary/70 mr-3 group-hover/skill:scale-125 transition-transform duration-200"></div>

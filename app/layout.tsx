@@ -7,9 +7,10 @@ import Navbar from "@/components/navbar"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "Jay Anand | Portfolio",
-  description: "Jay Anand's professional portfolio - Cybersecurity & Cloud Enthusiast",
-    generator: 'v0.dev'
+  title: "Jay Anand | Cybersecurity & Cloud Engineer | Portfolio",
+  description: "Portfolio of Jay Anand, a Computer Science Engineer specializing in cybersecurity, cloud computing, and full-stack development.",
+  keywords: ["Cybersecurity Portfolio", "Cloud Engineer", "Full Stack Developer", "Java Developer", "Network Security"],
+  generator: 'v0.dev'
 }
 
 export default function RootLayout({
