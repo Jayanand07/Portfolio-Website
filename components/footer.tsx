@@ -1,55 +1,113 @@
-import Link from "next/link"
-import { Github, Linkedin, Mail, Twitter } from "lucide-react"
-import { Button } from "@/components/ui/button"
+"use client";
+
+import Link from "next/link";
+import { Github, Linkedin, Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+
+const socials = [
+  { href: "https://github.com/Jayanand07", icon: Github, label: "GitHub" },
+  { href: "https://www.linkedin.com/in/jay-anand10", icon: Linkedin, label: "LinkedIn" },
+  { href: "mailto:anand.jay426344@gmail.com", icon: Mail, label: "Email" },
+];
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t py-12 bg-gradient-to-br from-muted/30 via-background to-muted/20">
-      <div className="container">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="mb-6 md:mb-0">
-            <Link href="/" className="text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent hover:from-primary/80 hover:to-primary transition-all duration-300">
+    <footer className="relative py-16 overflow-hidden border-t border-border/50">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-primary/5 via-background to-background" />
+
+      <div className="container relative z-10">
+        <div className="flex flex-col items-center text-center space-y-8">
+          {/* Quote */}
+          <motion.div
+            className="max-w-md"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <blockquote className="text-lg md:text-2xl font-medium text-foreground/80 italic">
+              "Security is not optional — it's foundational."
+            </blockquote>
+          </motion.div>
+
+          {/* Divider */}
+          <motion.div
+            className="w-20 h-0.5 bg-gradient-to-r from-transparent via-primary/50 to-transparent"
+            initial={{ width: 0 }}
+            whileInView={{ width: 80 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          />
+
+          {/* Name and role */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <Link
+              href="/"
+              className="text-2xl font-bold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+            >
               Jay Anand
             </Link>
-            <p className="text-muted-foreground mt-2 text-sm">
-              Cybersecurity & Cloud-Focused Engineer
+            <p className="text-muted-foreground mt-2">
+              Cybersecurity & Cloud Engineer
             </p>
-          </div>
+          </motion.div>
 
-          <div className="flex gap-3">
-            <Button variant="ghost" size="icon" asChild className="rounded-full hover:bg-primary/10 hover:text-primary transition-all duration-300">
-              <Link href="https://github.com/Jayanand07" target="_blank" rel="noopener noreferrer">
-                <Github className="h-5 w-5" />
-                <span className="sr-only">GitHub</span>
-              </Link>
-            </Button>
-            <Button variant="ghost" size="icon" asChild className="rounded-full hover:bg-primary/10 hover:text-primary transition-all duration-300">
-              <Link href="https://www.linkedin.com/in/jay-anand10" target="_blank" rel="noopener noreferrer">
-                <Linkedin className="h-5 w-5" />
-                <span className="sr-only">LinkedIn</span>
-              </Link>
-            </Button>
-            <Button variant="ghost" size="icon" asChild className="rounded-full hover:bg-primary/10 hover:text-primary transition-all duration-300">
-              <Link href="https://x.com/jayanand42634?s=21" target="_blank" rel="noopener noreferrer">
-                <Twitter className="h-5 w-5" />
-                <span className="sr-only">Twitter</span>
-              </Link>
-            </Button>
-            <Button variant="ghost" size="icon" asChild className="rounded-full hover:bg-primary/10 hover:text-primary transition-all duration-300">
-              <Link href="mailto:anand.jay426344@gmail.com">
-                <Mail className="h-5 w-5" />
-                <span className="sr-only">Email</span>
-              </Link>
-            </Button>
-          </div>
-        </div>
+          {/* Social links */}
+          <motion.div
+            className="flex gap-3"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            {socials.map((social, index) => (
+              <motion.div
+                key={social.label}
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  asChild
+                  className="rounded-full border border-border/50 hover:border-primary/50 hover:bg-primary/10 hover:text-primary transition-all duration-300"
+                >
+                  <Link
+                    href={social.href}
+                    target={social.href.startsWith("http") ? "_blank" : undefined}
+                    rel={social.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  >
+                    <social.icon className="h-5 w-5" />
+                    <span className="sr-only">{social.label}</span>
+                  </Link>
+                </Button>
+              </motion.div>
+            ))}
+          </motion.div>
 
-        <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
-          <p>© {currentYear} Jay Anand. Built with Next.js & Tailwind CSS.</p>
+          {/* Copyright */}
+          <motion.div
+            className="pt-8 border-t border-border/30 w-full"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
+            <p className="text-sm text-muted-foreground">
+              © {currentYear} Jay Anand. Built with Next.js & Tailwind CSS.
+            </p>
+          </motion.div>
         </div>
       </div>
     </footer>
-  )
+  );
 }

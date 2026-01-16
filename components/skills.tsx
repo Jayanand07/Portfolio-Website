@@ -1,79 +1,189 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Code, Database, Layout, Server, Shield, Users, Cloud } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Code, Server, Shield, Cloud, Database, ExternalLink } from "lucide-react";
+
+// Tech icons as inline SVGs for maximum visual impact
+const TechIcon = ({ name }: { name: string }) => {
+  const icons: Record<string, JSX.Element> = {
+    // Programming Languages
+    "Java": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <path fill="#EA2D2E" d="M47.617 98.12s-4.767 2.774 3.397 3.71c9.892 1.13 14.947.968 25.845-1.092 0 0 2.871 1.795 6.873 3.351-24.439 10.47-55.308-.607-36.115-5.969zm-2.988-13.665s-5.348 3.959 2.823 4.805c10.567 1.091 18.91 1.18 33.354-1.6 0 0 1.993 2.025 5.132 3.131-29.542 8.64-62.446.68-41.309-6.336z" />
+        <path fill="#EA2D2E" d="M69.802 61.271c6.025 6.935-1.58 13.17-1.58 13.17s15.289-7.891 8.269-17.777c-6.559-9.215-11.587-13.792 15.635-29.58 0 .001-42.731 10.67-22.324 34.187z" />
+        <path fill="#EA2D2E" d="M102.123 108.229s3.529 2.91-3.888 5.159c-14.102 4.272-58.706 5.56-71.094.171-4.451-1.938 3.899-4.625 6.526-5.192 2.739-.593 4.303-.485 4.303-.485-4.953-3.487-32.013 6.85-13.743 9.815 49.821 8.076 90.817-3.637 77.896-9.468zM49.912 70.294s-22.686 5.389-8.033 7.348c6.188.828 18.518.638 30.011-.326 9.39-.789 18.813-2.474 18.813-2.474s-3.308 1.419-5.704 3.053c-23.042 6.061-67.544 3.238-54.731-2.958 10.832-5.239 19.644-4.643 19.644-4.643zm40.697 22.747c23.421-12.167 12.591-23.86 5.032-22.285-1.848.385-2.677.72-2.677.72s.688-1.079 2-1.543c14.953-5.255 26.451 15.503-4.823 23.725 0-.002.359-.327.468-.617z" />
+        <path fill="#EA2D2E" d="M76.491 1.587S89.459 14.563 64.188 34.51c-20.266 16.006-4.621 25.13-.007 35.559-11.831-10.673-20.509-20.07-14.688-28.815C58.041 28.42 81.722 22.195 76.491 1.587z" />
+        <path fill="#EA2D2E" d="M52.214 126.021c22.476 1.437 57-.8 57.817-11.436 0 0-1.571 4.032-18.577 7.231-19.186 3.612-42.854 3.191-56.887.874 0 .001 2.875 2.381 17.647 3.331z" />
+      </svg>
+    ),
+    "Python": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <linearGradient id="python-a" gradientUnits="userSpaceOnUse" x1="70.252" y1="1237.476" x2="170.659" y2="1151.089" gradientTransform="matrix(.563 0 0 -.568 -29.215 707.817)"><stop offset="0" stopColor="#5A9FD4" /><stop offset="1" stopColor="#306998" /></linearGradient>
+        <path fill="url(#python-a)" d="M63.391 1.988c-4.222.02-8.252.379-11.8 1.007-10.45 1.846-12.346 5.71-12.346 12.837v9.411h24.693v3.137H29.977c-7.176 0-13.46 4.313-15.426 12.521-2.268 9.405-2.368 15.275 0 25.096 1.755 7.311 5.947 12.519 13.124 12.519h8.491V67.234c0-8.151 7.051-15.34 15.426-15.34h24.665c6.866 0 12.346-5.654 12.346-12.548V15.833c0-6.693-5.646-11.72-12.346-12.837-4.244-.706-8.645-1.027-12.866-1.008zM50.037 9.557c2.55 0 4.634 2.117 4.634 4.721 0 2.593-2.083 4.69-4.634 4.69-2.56 0-4.633-2.097-4.633-4.69-.001-2.604 2.073-4.721 4.633-4.721z" />
+        <linearGradient id="python-b" gradientUnits="userSpaceOnUse" x1="209.474" y1="1098.811" x2="173.62" y2="1149.537" gradientTransform="matrix(.563 0 0 -.568 -29.215 707.817)"><stop offset="0" stopColor="#FFD43B" /><stop offset="1" stopColor="#FFE873" /></linearGradient>
+        <path fill="url(#python-b)" d="M91.682 28.38v10.966c0 8.5-7.208 15.655-15.426 15.655H51.591c-6.756 0-12.346 5.783-12.346 12.549v23.515c0 6.691 5.818 10.628 12.346 12.547 7.816 2.297 15.312 2.713 24.665 0 6.216-1.801 12.346-5.423 12.346-12.547v-9.412H63.938v-3.138h37.012c7.176 0 9.852-5.005 12.348-12.519 2.578-7.735 2.467-15.174 0-25.096-1.774-7.145-5.161-12.521-12.348-12.521h-9.268zM77.809 87.927c2.561 0 4.634 2.097 4.634 4.692 0 2.602-2.074 4.719-4.634 4.719-2.55 0-4.633-2.117-4.633-4.719 0-2.595 2.083-4.692 4.633-4.692z" />
+      </svg>
+    ),
+    "JavaScript": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <path fill="#F7DF1E" d="M2 1v125h125V1H2zm66.119 106.513c-1.845 3.749-5.367 6.212-9.448 7.401-6.271 1.44-12.269.619-16.731-2.059-2.986-1.832-5.318-4.652-6.901-7.901l9.52-5.83c.083.035.333.487.667 1.071 1.214 2.034 2.261 3.474 4.319 4.485 2.022.69 6.461 1.131 8.175-2.427 1.047-1.81.714-7.628.714-14.065C58.433 78.073 58.48 68 58.48 58h11.709c0 11 .06 21.418 0 32.152.039 6.811.596 13.6-2.07 19.361z" />
+        <path fill="#F7DF1E" d="M97.646 106.53c-2.386 5.131-7.199 8.127-12.859 9.218-7.017 1.345-13.614.088-18.604-4.112-1.644-1.387-3.138-3.19-4.322-5.164l9.556-5.857c.668.875 1.183 1.572 1.859 2.209 4.191 3.936 10.679 3.291 12.858-.34 1.594-2.612 1.608-10.008 1.608-15.184 0-7.698.061-15.399.061-23.1h11.698v23.3c0 6.691-.021 13.464-.021 20.155-.019 3.391.421 5.855-1.834 8.875z" />
+      </svg>
+    ),
+    "C++": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <path fill="#00599C" d="M117.5 33.5l.3-.2c-.6-1.1-1.5-2.1-2.4-2.6L67.1 2.9c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7L12.5 31.1c-1.8 1.1-3.3 3.5-3.3 5.4v56.2c0 1.9 1.5 4.4 3.3 5.4l48.4 27.9c.8.5 1.9.7 3.1.7 1.2 0 2.3-.3 3.1-.7l48.4-27.9c.8-.5 1.5-1.2 2-2.1l.3-.2v-.3c.4-.8.6-1.6.6-2.3V36.1c0-.8-.2-1.7-.6-2.5l-.3-.1zM64 88.5c9.1 0 17.1-5 21.3-12.4l12.9 7.6c-6.8 11.8-19.6 19.8-34.2 19.8-21.8 0-39.5-17.7-39.5-39.5S42.2 24.5 64 24.5c14.7 0 27.5 8.1 34.3 20l-13 7.5C81.1 44.5 73.1 39.5 64 39.5c-13.5 0-24.5 11-24.5 24.5s11 24.5 24.5 24.5z" />
+        <path fill="#00599C" d="M82.5 57.5h5v10h-5v5h-10v-5h-5v-10h5v-5h10v5zm23 0h5v10h-5v5h-10v-5h-5v-10h5v-5h10v5z" />
+      </svg>
+    ),
+    // Frameworks
+    "React": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <g fill="#61DAFB"><circle cx="64" cy="64" r="11.4" /><path d="M107.3 45.2c-2.2-.8-4.5-1.6-6.9-2.3.6-2.4 1.1-4.8 1.5-7.1 2.1-13.2-.2-22.5-6.6-26.1-1.9-1.1-4-1.6-6.4-1.6-7 0-15.9 5.2-24.9 13.9-9-8.7-17.9-13.9-24.9-13.9-2.4 0-4.5.5-6.4 1.6-6.4 3.7-8.7 13-6.6 26.1.4 2.3.9 4.7 1.5 7.1-2.4.7-4.7 1.4-6.9 2.3C8.2 50 1.4 56.6 1.4 64s6.9 14 19.3 18.8c2.2.8 4.5 1.6 6.9 2.3-.6 2.4-1.1 4.8-1.5 7.1-2.1 13.2.2 22.5 6.6 26.1 1.9 1.1 4 1.6 6.4 1.6 7.1 0 16-5.2 24.9-13.9 9 8.7 17.9 13.9 24.9 13.9 2.4 0 4.5-.5 6.4-1.6 6.4-3.7 8.7-13 6.6-26.1-.4-2.3-.9-4.7-1.5-7.1 2.4-.7 4.7-1.4 6.9-2.3 12.5-4.8 19.3-11.4 19.3-18.8s-6.8-14-19.3-18.8zM92.5 14.7c4.1 2.4 5.5 9.8 3.8 20.3-.3 2.1-.8 4.3-1.4 6.6-5.2-1.2-10.7-2-16.5-2.5-3.4-4.8-6.9-9.1-10.4-13 7.4-7.3 14.9-12.3 21-12.3 1.3 0 2.5.3 3.5.9zM81.3 74c-1.8 3.2-3.9 6.4-6.1 9.6-3.7.3-7.4.4-11.2.4-3.9 0-7.6-.1-11.2-.4-2.2-3.2-4.2-6.4-6-9.6-1.9-3.3-3.7-6.7-5.3-10 1.6-3.3 3.4-6.7 5.3-10 1.8-3.2 3.9-6.4 6.1-9.6 3.7-.3 7.4-.4 11.2-.4 3.9 0 7.6.1 11.2.4 2.2 3.2 4.2 6.4 6 9.6 1.9 3.3 3.7 6.7 5.3 10-1.7 3.3-3.4 6.6-5.3 10zm8.3-3.3c1.5 3.5 2.7 6.9 3.8 10.3-3.4.8-7 1.4-10.8 1.9 1.2-1.9 2.5-3.9 3.6-6 1.2-2.1 2.3-4.2 3.4-6.2zM64 97.8c-2.4-2.6-4.7-5.4-6.9-8.3 2.3.1 4.6.2 6.9.2 2.3 0 4.6-.1 6.9-.2-2.2 2.9-4.5 5.7-6.9 8.3zm-18.6-15c-3.8-.5-7.4-1.1-10.8-1.9 1.1-3.3 2.3-6.8 3.8-10.3 1.1 2 2.2 4.1 3.4 6.1 1.2 2.2 2.4 4.1 3.6 6.1zm-7-25.5c-1.5-3.5-2.7-6.9-3.8-10.3 3.4-.8 7-1.4 10.8-1.9-1.2 1.9-2.5 3.9-3.6 6-1.2 2.1-2.3 4.2-3.4 6.2zM64 30.2c2.4 2.6 4.7 5.4 6.9 8.3-2.3-.1-4.6-.2-6.9-.2-2.3 0-4.6.1-6.9.2 2.2-2.9 4.5-5.7 6.9-8.3zm22.2 21l-3.6-6c3.8.5 7.4 1.1 10.8 1.9-1.1 3.3-2.3 6.8-3.8 10.3-1.1-2.1-2.2-4.2-3.4-6.2zM31.7 35c-1.7-10.5-.3-17.9 3.8-20.3 1-.6 2.2-.9 3.5-.9 6 0 13.5 4.9 21 12.3-3.5 3.8-7 8.2-10.4 13-5.8.5-11.3 1.4-16.5 2.5-.6-2.3-1-4.5-1.4-6.6zM7 64c0-4.7 5.7-9.7 15.7-13.4 2-.8 4.2-1.5 6.4-2.1 1.6 5 3.6 10.3 6 15.6-2.4 5.3-4.5 10.5-6 15.5C15.3 75.6 7 69.6 7 64zm28.5 49.3c-4.1-2.4-5.5-9.8-3.8-20.3.3-2.1.8-4.3 1.4-6.6 5.2 1.2 10.7 2 16.5 2.5 3.4 4.8 6.9 9.1 10.4 13-7.4 7.3-14.9 12.3-21 12.3-1.3 0-2.5-.3-3.5-.9zM96.3 93c1.7 10.5.3 17.9-3.8 20.3-1 .6-2.2.9-3.5.9-6 0-13.5-4.9-21-12.3 3.5-3.8 7-8.2 10.4-13 5.8-.5 11.3-1.4 16.5-2.5.6 2.3 1 4.5 1.4 6.6zm9-15.6c-2 .8-4.2 1.5-6.4 2.1-1.6-5-3.6-10.3-6-15.6 2.4-5.3 4.5-10.5 6-15.5 13.8 4 22.1 10 22.1 15.6 0 4.7-5.8 9.7-15.7 13.4z" /></g>
+      </svg>
+    ),
+    "Next.js": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <path fill="#fff" d="M64 0C28.7 0 0 28.7 0 64s28.7 64 64 64c11.2 0 21.7-2.9 30.8-7.9L48.4 55.3v36.6h-6.8V41.8h6.8l50.5 75.8C116.4 106.2 128 86.5 128 64c0-35.3-28.7-64-64-64zm22.1 84.6l-7.5-11.3V41.8h7.5v42.8z" />
+      </svg>
+    ),
+    "Spring Boot": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <path fill="#6DB33F" d="M116.452 6.643a59.104 59.104 0 01-6.837 12.136A64.249 64.249 0 0064.205-.026C28.984-.026 0 28.982 0 64.242a64.316 64.316 0 0019.945 46.562l2.368 2.1a64.22 64.22 0 0041.358 15.122c33.487 0 61.637-26.24 64.021-59.683 1.751-16.371-3.051-37.077-11.24-61.7zM29.067 111.17a5.5 5.5 0 01-4.269 2.034c-3.018 0-5.487-2.484-5.487-5.502 0-3.017 2.485-5.501 5.487-5.501 1.25 0 2.485.433 3.452 1.234 2.351 1.9 2.718 5.384.817 7.735zm87.119-19.238c-15.843 21.122-49.68 14.003-71.376 15.02 0 0-3.852.234-7.721.867 0 0 1.45-.617 3.335-1.334 15.226-5.301 22.43-6.335 31.685-11.086 17.427-8.869 34.654-28.274 38.24-48.463-6.637 19.422-26.75 36.11-45.078 42.895-12.557 4.635-35.238 9.136-35.238 9.136l-.917-.484c-15.442-7.518-15.91-40.977 12.157-51.78 12.291-4.735 24.048-2.134 37.323-5.302 14.175-3.367 30.568-14.004 37.238-27.874 7.471 22.19 16.46 56.932.352 78.405z" />
+      </svg>
+    ),
+    "FastAPI": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <path fill="#009688" d="M64 0C28.654 0 0 28.654 0 64s28.654 64 64 64 64-28.654 64-64S99.346 0 64 0zm0 14c27.57 0 50 22.43 50 50s-22.43 50-50 50S14 91.57 14 64 36.43 14 64 14z" />
+        <path fill="#009688" d="M68.158 24L44 64l24.158 40h15.684L59.684 64l24.158-40z" />
+      </svg>
+    ),
+    // Cloud & DevOps
+    "AWS": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <path fill="#F7A80D" d="M38.089 77.466l-11.4 4.896 10.559 4.514 12.241-4.514-11.4-4.896zm-17.138 6.12l-.382 22.034 16.679 7.345V90.089l-16.297-6.503zm34.276 0l-15.073 5.739V110.9l15.073-6.121V83.586zm17.979-68.551L61.73 19.931l10.635 4.515 12.241-4.515-11.477-4.896zm-15.914 6.503v22.034l14.61 6.121v-22.8l-14.61-5.355zm31.828 1.224L75.047 28.5v21.192l14.073 5.738V22.762zm-24.023 54.39l-11.4 4.896 10.559 4.514 12.241-4.514-11.4-4.896zm-17.137 6.121l-.383 22.034 16.679 7.345V90.089l-16.296-6.503zm34.275 0L67 88.789V110.9l15.073-6.121V83.586zM19.306 46.047l-11.4 4.897 10.559 4.514 12.241-4.514-11.4-4.897zM2.168 52.168l-.382 22.034 16.679 7.345V58.671l-16.297-6.503zm34.276 0l-15.074 5.739v21.564l15.074-6.12V52.168z" />
+      </svg>
+    ),
+    "Microsoft Azure": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <path fill="#0089D6" d="M44.234 0L19.82 47.707 0 82.633h26.879L44.234 0zm6.895 8.352l-10.543 37.56 26.484 32.064-49.195 8.438H128L51.129 8.352z" />
+      </svg>
+    ),
+    "Oracle Cloud": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <path fill="#F80000" d="M64 96.539c-17.886 0-32.539-14.653-32.539-32.539S46.114 31.461 64 31.461 96.539 46.114 96.539 64 81.886 96.539 64 96.539zM64 41.077c-12.646 0-22.923 10.277-22.923 22.923S51.354 86.923 64 86.923 86.923 76.646 86.923 64 76.646 41.077 64 41.077z" />
+      </svg>
+    ),
+    "Linux": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <path fill="#FCC624" d="M64.094 0C35.629 0 12.706 23.583 12.706 52.596c0 29.016 22.923 52.599 51.388 52.599s51.388-23.583 51.388-52.599C115.482 23.583 92.559 0 64.094 0zM23.813 71.669c-2.479 0-4.49-2.266-4.49-5.06 0-2.797 2.011-5.063 4.49-5.063 2.48 0 4.49 2.266 4.49 5.063 0 2.794-2.01 5.06-4.49 5.06zm16.318 26.153c-5.021 0-9.092-4.576-9.092-10.221 0-5.644 4.071-10.221 9.092-10.221 5.022 0 9.093 4.577 9.093 10.221 0 5.645-4.071 10.221-9.093 10.221zm48.02 0c-5.022 0-9.092-4.576-9.092-10.221 0-5.644 4.07-10.221 9.092-10.221 5.021 0 9.092 4.577 9.092 10.221 0 5.645-4.071 10.221-9.092 10.221zm16.318-26.153c-2.48 0-4.49-2.266-4.49-5.06 0-2.797 2.01-5.063 4.49-5.063 2.479 0 4.489 2.266 4.489 5.063 0 2.794-2.01 5.06-4.489 5.06z" />
+        <path fill="#333" d="M64 38.047c-4.95 0-8.964 4.516-8.964 10.085v10.085c0 5.568 4.014 10.085 8.964 10.085s8.964-4.517 8.964-10.085V48.132c0-5.569-4.014-10.085-8.964-10.085z" />
+      </svg>
+    ),
+    "Git": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <path fill="#F34F29" d="M124.737 58.378L69.621 3.264c-3.172-3.174-8.32-3.174-11.497 0L46.68 14.71l14.518 14.518c3.375-1.139 7.243-.375 9.932 2.314 2.703 2.706 3.461 6.607 2.294 9.993l13.992 13.993c3.385-1.167 7.292-.413 9.994 2.295 3.775 3.777 3.775 9.9 0 13.679-3.78 3.777-9.902 3.777-13.679 0-2.832-2.835-3.545-7.014-2.14-10.499L68.093 47.498l-.002 38.704c.922.455 1.79 1.063 2.559 1.828 3.778 3.777 3.778 9.898 0 13.678-3.777 3.779-9.897 3.779-13.678 0-3.778-3.78-3.778-9.901 0-13.678.94-.937 2.022-1.679 3.187-2.223V46.855c-1.165-.544-2.247-1.289-3.187-2.226-2.855-2.857-3.547-7.097-2.091-10.606L40.588 19.72 3.264 57.043c-3.174 3.178-3.174 8.327 0 11.5L58.378 123.5c3.175 3.174 8.323 3.174 11.5 0l54.859-54.859c3.175-3.175 3.175-8.325 0-11.5z" />
+      </svg>
+    ),
+    "Vercel": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <path fill="#fff" d="M64 0L128 112H0L64 0z" />
+      </svg>
+    ),
+    // Databases & Tools
+    "MySQL": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <path fill="#00618A" d="M2.001 90.458h4.108v-15.82l6.16 13.986c.693 1.572 1.65 2.129 3.502 2.129 1.852 0 2.791-.557 3.484-2.129l6.16-13.986v15.82h4.108V71.18h-5.244c-.825 0-1.399.264-1.696.928l-6.16 14.479-6.16-14.479c-.264-.664-.858-.928-1.683-.928H2v19.278zm30.506 0h4.108v-8.555h8.555v-3.607h-8.555v-3.508h9.35V71.18h-13.458v19.278zm24.673-3.395c-1.189 0-1.75-.561-1.75-1.75v-10.586h4.372V71.18h-4.372v-5.03h-3.506l-.528 5.03-2.422.462v3.085h2.422v10.716c0 3.166 1.629 5.478 5.478 5.015l2.554-.462v-3.305c-.561.066-1.056.099-1.486.099-.594 0-1.106-.099-1.502-.297-.396-.198-.693-.495-.89-.891-.198-.396-.297-.858-.297-1.386-.002-.264.049-.462.049-.528l-.122-.088zM64.92 90.458h4.108v-8.555h8.555v-3.607h-8.555v-3.508h9.35V71.18H64.92v19.278zm18.754 0h4.108V77.87h-4.108v12.588zm2.07-14.613c1.253 0 2.279-1.026 2.279-2.279s-1.026-2.279-2.279-2.279c-1.254 0-2.279 1.026-2.279 2.279s1.025 2.279 2.279 2.279zm5.644 14.613h4.108V77.87h-4.108v12.588zm2.07-14.613c1.253 0 2.279-1.026 2.279-2.279s-1.026-2.279-2.279-2.279c-1.254 0-2.279 1.026-2.279 2.279s1.025 2.279 2.279 2.279z" />
+        <path fill="#E48E00" d="M99.459 77.606c-2.814 0-4.933.891-6.358 2.673v-2.409h-3.902v22.384h4.108v-9.504c1.425 1.783 3.544 2.674 6.358 2.674 4.636 0 8.027-3.391 8.027-7.909s-3.391-7.909-8.233-7.909zm-.594 12.357c-2.551 0-4.372-1.82-4.372-4.371s1.821-4.372 4.372-4.372c2.55 0 4.371 1.821 4.371 4.372s-1.821 4.371-4.371 4.371z" />
+        <path fill="#00618A" d="M114.734 77.606c-4.636 0-8.027 3.391-8.027 7.909s3.391 7.909 8.027 7.909c2.814 0 4.933-.891 6.358-2.674v2.409h3.902V77.87h-3.902v2.409c-1.425-1.783-3.544-2.673-6.358-2.673zm.594 12.357c-2.551 0-4.372-1.82-4.372-4.371s1.821-4.372 4.372-4.372c2.55 0 4.371 1.821 4.371 4.372s-1.821 4.371-4.371 4.371z" />
+      </svg>
+    ),
+    "MongoDB": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <path fill="#439934" d="M68.052 3.568c-1.652-2.238-2.792-4.524-3.108-5.324a.625.625 0 00-1.156 0c-.316.8-1.456 3.086-3.108 5.324-26.052 35.292-20.48 63.052-17.54 74.98 2.184 8.876 8.064 17.328 15.756 22.912a.884.884 0 00.108.064v21.82s.052.656.684.656c.632 0 .684-.656.684-.656V101.5a.896.896 0 00.108-.064c7.692-5.584 13.572-14.036 15.756-22.912 2.94-11.928 8.512-39.688-17.54-74.98z" />
+        <path fill="#45A538" d="M64.052 101.5v21.844s.052.656.684.656c.632 0 .684-.656.684-.656v-21.82c-.228.06-.46.104-.684.14-.224-.036-.456-.08-.684-.14v-.024z" />
+      </svg>
+    ),
+    "Firebase": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <path fill="#FFA000" d="M27.35 80.52l7.32-47.96 14.88 13.12-22.2 34.84z" />
+        <path fill="#F57C00" d="M99.71 93.72L87.57 19.38c-.39-2.18-2.96-2.98-4.49-1.4L24.21 80.56l33.44 19.32c2.25 1.3 5.02 1.3 7.27 0l34.79-20.1v.94z" />
+        <path fill="#FFCA28" d="M74.93 31.88l-11.77-9.66c-.88-.73-2.18-.73-3.06 0l-35.89 38.3 22.24 34.84z" />
+        <path fill="#FFA000" d="M99.71 93.72L87.57 19.38c-.39-2.18-2.96-2.98-4.49-1.4L24.21 80.56l33.44 19.32c2.25 1.3 5.02 1.3 7.27 0l34.79-20.16z" />
+      </svg>
+    ),
+    "Power BI": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <path fill="#F2C811" d="M64 16c26.51 0 48 21.49 48 48s-21.49 48-48 48S16 90.51 16 64 37.49 16 64 16m0-16C28.654 0 0 28.654 0 64s28.654 64 64 64 64-28.654 64-64S99.346 0 64 0z" />
+        <path fill="#F2C811" d="M40 48h16v40H40zM64 32h16v56H64zM88 56h16v32H88z" />
+      </svg>
+    ),
+    "Figma": (
+      <svg viewBox="0 0 128 128" className="w-8 h-8">
+        <path fill="#0ACF83" d="M45.5 129c11.598 0 21-9.402 21-21V87H45.5c-11.598 0-21 9.402-21 21s9.402 21 21 21z" />
+        <path fill="#A259FF" d="M24.5 66c0-11.598 9.402-21 21-21h21v42h-21c-11.598 0-21-9.402-21-21z" />
+        <path fill="#F24E1E" d="M24.5 24c0-11.598 9.402-21 21-21h21v42h-21c-11.598 0-21-9.402-21-21z" />
+        <path fill="#FF7262" d="M66.5 3h21c11.598 0 21 9.402 21 21s-9.402 21-21 21h-21V3z" />
+        <path fill="#1ABCFE" d="M108.5 66c0 11.598-9.402 21-21 21s-21-9.402-21-21 9.402-21 21-21 21 9.402 21 21z" />
+      </svg>
+    ),
+  };
+
+  return icons[name] || (
+    <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+      <span className="text-xs font-medium text-white/60">{name.slice(0, 2)}</span>
+    </div>
+  );
+};
 
 const skillCategories = [
   {
     id: 1,
-    title: "Languages",
-    icon: <Code className="h-8 w-8 text-primary" />,
-    skills: ["Java", "Python", "JavaScript", "C++"],
+    title: "Programming Languages",
+    icon: Code,
+    gradient: "from-blue-500/20 to-cyan-500/20",
+    borderGradient: "hover:border-blue-500/40",
+    techs: ["Java", "Python", "JavaScript", "C++"],
   },
   {
     id: 2,
-    title: "Frameworks",
-    icon: <Layout className="h-8 w-8 text-primary" />,
-    skills: ["React", "Next.js", "Spring Boot", "FastAPI"],
+    title: "Frameworks & Backend",
+    icon: Server,
+    gradient: "from-purple-500/20 to-pink-500/20",
+    borderGradient: "hover:border-purple-500/40",
+    techs: ["React", "Next.js", "Spring Boot", "FastAPI"],
   },
   {
     id: 3,
-    title: "Tools & Platforms",
-    icon: <Server className="h-8 w-8 text-primary" />,
-    skills: [
-      "Linux",
-      "Git",
-      "GitHub",
-      "MySQL",
-      "MongoDB",
-      "Firebase",
-      "Vercel",
-      "Figma",
-      "Power BI",
+    title: "Cybersecurity",
+    icon: Shield,
+    gradient: "from-red-500/20 to-orange-500/20",
+    borderGradient: "hover:border-red-500/40",
+    isLabeledSection: true,
+    items: [
+      { label: "Network Security", icon: "🔒" },
+      { label: "OWASP", icon: "🛡️" },
+      { label: "Vulnerability Assessment", icon: "🔍" },
+      { label: "Penetration Testing", icon: "⚔️" },
+      { label: "SIEM", icon: "📊" },
+      { label: "Encryption", icon: "🔐" },
     ],
   },
   {
     id: 4,
-    title: "Cloud",
-    icon: <Cloud className="h-8 w-8 text-primary" />,
-    skills: ["AWS", "Microsoft Azure", "Oracle Cloud"],
+    title: "Cloud & DevOps",
+    icon: Cloud,
+    gradient: "from-cyan-500/20 to-blue-500/20",
+    borderGradient: "hover:border-cyan-500/40",
+    techs: ["AWS", "Microsoft Azure", "Oracle Cloud", "Linux", "Git", "Vercel"],
   },
   {
     id: 5,
-    title: "Cybersecurity",
-    icon: <Shield className="h-8 w-8 text-primary" />,
-    skills: [
-      "Network Security",
-      "System Security",
-      "OWASP",
-      "Vulnerability Assessment",
-      "Penetration Testing",
-      "SIEM",
-      "Encryption",
-    ],
-  },
-  {
-    id: 6,
-    title: "CS Fundamentals",
-    icon: <Database className="h-8 w-8 text-primary" />,
-    skills: [
-      "Data Structures & Algorithms",
-      "Operating Systems",
-      "Computer Networks",
-      "Database Management Systems",
-    ],
-  },
-  {
-    id: 7,
-    title: "Soft Skills",
-    icon: <Users className="h-8 w-8 text-primary" />,
-    skills: [
-      "Problem Solving",
-      "Team Collaboration",
-      "Communication",
-      "Adaptability",
-    ],
+    title: "Tools & Databases",
+    icon: Database,
+    gradient: "from-green-500/20 to-emerald-500/20",
+    borderGradient: "hover:border-green-500/40",
+    techs: ["MySQL", "MongoDB", "Firebase", "Power BI", "Figma"],
   },
 ];
 
@@ -81,96 +191,138 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="py-16 md:py-24 bg-gradient-to-br from-background via-muted/20 to-background"
+      className="py-24 md:py-32 relative overflow-hidden"
     >
-      <div className="container">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-[#0a1520] to-[#050505]" />
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, rgba(56,189,248,0.03) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(56,189,248,0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: "60px 60px",
+          maskImage: "radial-gradient(ellipse at center, black 20%, transparent 70%)",
+          WebkitMaskImage: "radial-gradient(ellipse at center, black 20%, transparent 70%)",
+        }}
+      />
+
+      <div className="container relative z-10">
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
+          <motion.div
+            className="inline-flex items-center gap-2 px-4 py-2 mb-6 text-sm font-medium bg-white/[0.03] text-cyan-400 rounded-full border border-cyan-500/20"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <ExternalLink className="w-4 h-4" />
+            Core Competencies
+          </motion.div>
+
           <motion.h2
-            className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-heading"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            My Skills
+            <span className="gradient-text">Technical Arsenal</span>
           </motion.h2>
+
           <motion.div
-            className="w-20 h-1 bg-gradient-to-r from-primary to-primary/50 mx-auto mb-8 rounded-full"
+            className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-teal-400 mx-auto mb-6 rounded-full"
             initial={{ width: 0 }}
-            whileInView={{ width: 80 }}
+            whileInView={{ width: 96 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
-          ></motion.div>
+          />
+
           <motion.p
-            className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed"
+            className="text-zinc-400 max-w-2xl mx-auto text-lg"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
           >
-            Technologies and skills I've developed through projects, training, and continuous learning.
+            Technologies and skills honed through real-world projects and continuous learning
           </motion.p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {/* Skills Grid - tighter spacing */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {skillCategories.map((category, index) => (
             <motion.div
               key={category.id}
-              initial={{ opacity: 0, y: 30, scale: 0.9 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.1,
-                ease: "easeOut",
-              }}
-              whileHover={{ scale: 1.02, y: -5 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              whileHover={{ y: -8 }}
               className="group"
             >
-              <Card className="h-full border-primary/10 hover:border-primary/30 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary/10 bg-gradient-to-br from-card to-card/50">
-                <CardHeader className="flex flex-row items-center gap-4 pb-4">
+              <div className={`h-full glass-card rounded-2xl p-5 border border-white/[0.08] ${category.borderGradient} transition-all duration-500 hover:shadow-card-hover`}>
+                {/* Header */}
+                <div className="flex items-center gap-4 mb-6">
                   <motion.div
-                    className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors duration-300"
-                    whileHover={{ rotate: 360 }}
+                    className={`w-12 h-12 rounded-xl bg-gradient-to-br ${category.gradient} flex items-center justify-center border border-white/10`}
+                    whileHover={{ rotate: 360, scale: 1.1 }}
                     transition={{ duration: 0.6 }}
                   >
-                    {category.icon}
+                    <category.icon className="w-6 h-6 text-cyan-400" />
                   </motion.div>
-                  <div>
-                    <CardTitle className="text-lg font-semibold group-hover:text-primary transition-colors duration-300">
-                      {category.title}
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <ul className="grid grid-cols-1 gap-2">
-                    {category.skills.map((skill, skillIndex) => (
-                      <motion.li
-                        key={skill}
-                        className="flex items-center group/skill"
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
+                  <h3 className="text-lg font-semibold text-white group-hover:text-cyan-400 transition-colors duration-300">
+                    {category.title}
+                  </h3>
+                </div>
+
+                {/* Tech Icons Grid or Labeled Items */}
+                {category.isLabeledSection ? (
+                  <div className="flex flex-wrap gap-2">
+                    {category.items?.map((item, i) => (
+                      <motion.div
+                        key={item.label}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
-                        transition={{
-                          duration: 0.4,
-                          delay: index * 0.1 + skillIndex * 0.05,
-                        }}
+                        transition={{ duration: 0.3, delay: index * 0.1 + i * 0.05 }}
+                        whileHover={{ scale: 1.05, y: -2 }}
+                        className="flex items-center gap-2 px-3 py-2 bg-white/[0.03] rounded-lg border border-white/[0.08] hover:border-cyan-500/30 hover:bg-cyan-500/5 transition-all duration-300"
                       >
-                        <div className="w-2 h-2 rounded-full bg-gradient-to-r from-primary to-primary/70 mr-3 group-hover/skill:scale-125 transition-transform duration-200"></div>
-                        <span className="text-sm group-hover/skill:text-primary transition-colors duration-200">
-                          {skill}
-                        </span>
-                      </motion.li>
+                        <span className="text-sm">{item.icon}</span>
+                        <span className="text-sm text-zinc-300">{item.label}</span>
+                      </motion.div>
                     ))}
-                  </ul>
-                </CardContent>
-              </Card>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-4 gap-2.5">
+                    {category.techs?.map((tech, i) => (
+                      <motion.div
+                        key={tech}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.3, delay: index * 0.1 + i * 0.05 }}
+                        whileHover={{ scale: 1.15, y: -4 }}
+                        className="group/icon flex flex-col items-center gap-2 p-3 rounded-xl bg-white/[0.02] hover:bg-white/[0.05] border border-transparent hover:border-white/10 transition-all duration-300"
+                        title={tech}
+                      >
+                        <div className="opacity-70 group-hover/icon:opacity-90 transition-opacity">
+                          <TechIcon name={tech} />
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </motion.div>
           ))}
         </div>

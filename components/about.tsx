@@ -4,141 +4,170 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Download } from "lucide-react";
+import { Download, GraduationCap, Shield, Cloud, Code, Briefcase, TrendingUp, Puzzle } from "lucide-react";
+
+const aboutPoints = [
+  { icon: GraduationCap, text: "Computer Science Engineering student (Cybersecurity & Cloud focus)" },
+  { icon: Shield, text: "Strong foundation in system security, networking, and Linux" },
+  { icon: Cloud, text: "Experience with AWS, Azure, and Oracle Cloud" },
+  { icon: Puzzle, text: "Passionate about solving real-world problems through secure code" },
+  { icon: TrendingUp, text: "Focused on scalable, performance-driven architectures" },
+  { icon: Briefcase, text: "Actively open to internships, roles, and collaborations" },
+];
 
 export default function About() {
   return (
     <section
       id="about"
-      className="py-16 md:py-24 bg-gradient-to-br from-muted/30 via-background to-muted/20"
+      className="py-20 md:py-32 relative overflow-hidden"
     >
-      <div className="container">
+      {/* Subtle background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/30 to-background" />
+
+      <div className="container relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
           <motion.h2
-            className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            About Me
+            <span className="bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent">
+              Who I Am
+            </span>
           </motion.h2>
           <motion.div
-            className="w-20 h-1 bg-gradient-to-r from-primary to-primary/50 mx-auto rounded-full"
+            className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"
             initial={{ width: 0 }}
             whileInView={{ width: 80 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
-          ></motion.div>
+          />
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Photo with glow effect */}
           <motion.div
-            initial={{ opacity: 0, x: -50, scale: 0.8 }}
-            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative max-w-md mx-auto group"
+            className="relative max-w-md mx-auto lg:mx-0"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-            <div className="relative aspect-square overflow-hidden rounded-2xl shadow-2xl border border-primary/10 group-hover:shadow-primary/20 transition-all duration-300">
-              <Image
-                src="/IMG_5816.JPG"
-                alt="Jay Anand"
-                width={400}
-                height={400}
-                className="w-full h-full object-cover object-center scale-110 group-hover:scale-105 transition-transform duration-700"
-                priority
-              />
+            {/* Glow effect behind image - reduced opacity */}
+            <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 via-accent/15 to-primary/20 rounded-3xl blur-2xl opacity-50" />
+
+            {/* Glass border container */}
+            <div className="relative p-1 rounded-2xl bg-gradient-to-br from-primary/50 via-primary/20 to-accent/50">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-card">
+                <Image
+                  src="/IMG_5816.JPG"
+                  alt="Jay Anand"
+                  width={400}
+                  height={500}
+                  className="w-full h-full object-cover object-center"
+                  priority
+                />
+                {/* Cool overlay gradient + vignette */}
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-cyan-900/10 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-transparent" />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: 'radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.3) 100%)',
+                  }}
+                />
+              </div>
             </div>
+
+            {/* Decorative elements */}
+            <motion.div
+              className="absolute -top-4 -right-4 w-8 h-8 border-2 border-primary/50 rounded-lg"
+              animate={{ rotate: [0, 90, 0] }}
+              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+            />
+            <motion.div
+              className="absolute -bottom-4 -left-4 w-6 h-6 bg-accent/30 rounded-full"
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            />
           </motion.div>
 
+          {/* Content side */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="space-y-6"
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="space-y-8"
           >
-            <motion.h3
-              className="text-2xl md:text-3xl font-bold mb-6 text-foreground"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-            >
-              Who I Am
-            </motion.h3>
+            {/* About points */}
+            <div className="space-y-4">
+              {aboutPoints.map((point, index) => (
+                <motion.div
+                  key={point.text}
+                  className="flex items-start gap-4 group"
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+                >
+                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:bg-primary/20 group-hover:border-primary/40 transition-all duration-300">
+                    <point.icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <span className="text-muted-foreground pt-2 leading-relaxed group-hover:text-foreground transition-colors duration-300">
+                    {point.text}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
 
-            <motion.div className="space-y-4">
-              <motion.p
-                className="text-muted-foreground leading-relaxed"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.7 }}
-              >
-                I'm a Computer Science Engineering student with a strong focus on cybersecurity, cloud computing, and full-stack web development.
-              </motion.p>
-
-              <motion.p
-                className="text-muted-foreground leading-relaxed"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.8 }}
-              >
-                I have hands-on experience building secure, scalable applications, working with Linux environments, cloud platforms, authentication systems, and modern web technologies.
-              </motion.p>
-
-              <motion.p
-                className="text-muted-foreground leading-relaxed"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.85 }}
-              >
-                My interests include system security, cloud infrastructure, and solving real-world problems through clean, efficient code.
-              </motion.p>
-
-              <motion.p
-                className="text-muted-foreground leading-relaxed mb-8"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.9 }}
-              >
-                I am actively seeking opportunities to apply my skills, grow professionally, and contribute to impactful technology solutions.
-              </motion.p>
-            </motion.div>
-
+            {/* Education badge */}
             <motion.div
-              className="flex flex-wrap gap-4"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 1.0 }}
+              className="glass-card rounded-xl p-5 inline-block"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center border border-primary/20">
+                  <GraduationCap className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-foreground">Bachelor of Computer Science Engineering</h4>
+                  <p className="text-sm text-muted-foreground">2023 – 2027</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* CTA Buttons */}
+            <motion.div
+              className="flex flex-wrap gap-4 pt-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 1.1 }}
             >
               <Button
                 asChild
-                className="group hover:scale-105 transition-transform duration-200"
+                className="group hover:shadow-lg hover:shadow-primary/20 transition-all duration-300"
               >
                 <Link href="/contact">
-                  <span className="group-hover:translate-x-1 transition-transform duration-200">
-                    Get In Touch
-                  </span>
+                  Get In Touch
                 </Link>
               </Button>
               <Button
                 variant="outline"
                 asChild
-                className="group hover:scale-105 transition-transform duration-200"
+                className="group border-primary/30 hover:border-primary/60 hover:bg-primary/5 transition-all duration-300"
               >
                 <Link
                   href="https://drive.google.com/file/d/1nbldLP8Q6PP9st3dyIGcF1Tftsr85L5F/view?usp=sharing"
@@ -146,9 +175,7 @@ export default function About() {
                   rel="noopener noreferrer"
                 >
                   <Download className="h-4 w-4 mr-2" />
-                  <span className="group-hover:translate-x-1 transition-transform duration-200">
-                    Download Resume
-                  </span>
+                  Download Resume
                 </Link>
               </Button>
             </motion.div>
