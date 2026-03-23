@@ -13,6 +13,7 @@ const socialLinks = [
 export default function Contact() {
   const formRef = useRef<HTMLFormElement>(null)
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -24,9 +25,14 @@ export default function Contact() {
       setStatus('success')
       formRef.current.reset()
       setTimeout(() => setStatus('idle'), 5000)
-    } catch (error) {
+    } catch (error: any) {
+      console.error(error)
+      setErrorMessage(error?.text || error?.message || 'Unknown EmailJS Error')
       setStatus('error')
-      setTimeout(() => setStatus('idle'), 5000)
+      setTimeout(() => {
+        setStatus('idle')
+        setErrorMessage('')
+      }, 10000)
     }
   }
 
@@ -154,6 +160,11 @@ export default function Contact() {
                 <div className="w-16 h-16 rounded-full bg-red-500/20 flex items-center justify-center mb-6 text-red-400 text-3xl">✕</div>
                 <h3 className="text-2xl font-display font-bold text-white mb-2">Transmission Failed</h3>
                 <p className="text-white/60">There was an issue sending your message. Please try again or email directly.</p>
+                {errorMessage && (
+                  <div className="mt-4 p-3 bg-red-950/50 border border-red-500/30 rounded-lg max-w-full overflow-hidden">
+                    <p className="text-red-400 text-sm font-mono break-words">{errorMessage}</p>
+                  </div>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
