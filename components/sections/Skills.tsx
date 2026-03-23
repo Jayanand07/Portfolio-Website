@@ -1,12 +1,13 @@
 'use client'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
+import { Network, ShieldAlert, Terminal, Search, Lock, Server, ShieldCheck, Fingerprint, Activity } from 'lucide-react'
 
 type Category = 'All' | 'Languages' | 'Frameworks' | 'Databases' | 'Cloud' | 'Security' | 'Tools'
 
 interface Skill {
   name: string
-  icon: string
+  icon: string | React.ElementType
   category: Category
 }
 
@@ -46,6 +47,17 @@ const skills: Skill[] = [
   { name: 'VS Code', icon: 'devicon-vscode-plain colored', category: 'Tools' },
   { name: 'Figma', icon: 'devicon-figma-plain colored', category: 'Tools' },
   { name: 'Postman', icon: 'devicon-postman-plain colored', category: 'Tools' },
+
+  // Cybersecurity Tools
+  { name: 'Nmap', icon: Network, category: 'Tools' },
+  { name: 'Burp Suite', icon: ShieldAlert, category: 'Tools' },
+  { name: 'Wireshark', icon: Activity, category: 'Tools' },
+  { name: 'Metasploit', icon: Terminal, category: 'Tools' },
+  { name: 'OSINT', icon: Search, category: 'Tools' },
+  { name: 'Cryptography', icon: Lock, category: 'Tools' },
+  { name: 'System Administration', icon: Server, category: 'Tools' },
+  { name: 'OWASP', icon: ShieldCheck, category: 'Tools' },
+  { name: 'Digital Forensics', icon: Fingerprint, category: 'Tools' },
 ]
 
 const categories: Category[] = ['All', 'Languages', 'Frameworks', 'Databases', 'Cloud', 'Security', 'Tools']
@@ -130,7 +142,11 @@ export default function Skills() {
               className="group relative glass-card border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center text-center gap-4 bg-white/[0.02] hover:border-accent-cyan/40 hover:shadow-[0_0_25px_rgba(6,182,212,0.12)] hover:-translate-y-1 transition-all duration-300 min-h-[140px]"
             >
               {/* Icon */}
-              <i className={`${skill.icon} text-4xl md:text-[42px] transition-transform duration-300 group-hover:scale-110`} />
+              {typeof skill.icon === 'string' ? (
+                <i className={`${skill.icon} text-4xl md:text-[42px] transition-transform duration-300 group-hover:scale-110`} />
+              ) : (
+                <skill.icon className="w-10 h-10 md:w-11 md:h-[42px] transition-transform duration-300 group-hover:scale-110 text-white/90" strokeWidth={1.5} />
+              )}
 
               {/* Name */}
               <span className="text-white font-semibold text-sm md:text-base leading-tight">
