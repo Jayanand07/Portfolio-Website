@@ -71,7 +71,7 @@ export default function Nav() {
             )
           })}
           <a
-            href="https://drive.google.com/file/d/16csUQ4_gSbYuVv4CAe-NFC1gacR7GGe7/view?usp=drive_link"
+            href="https://drive.google.com/file/d/1nbldLP8Q6PP9st3dyIGcF1Tftsr85L5F/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-2 rounded-full border border-white/20 text-white text-sm font-medium hover:bg-white hover:text-black transition-colors"
@@ -121,7 +121,7 @@ export default function Nav() {
                 )
               })}
               <a
-                href="https://drive.google.com/file/d/16csUQ4_gSbYuVv4CAe-NFC1gacR7GGe7/view?usp=drive_link"
+                href="https://drive.google.com/file/d/1nbldLP8Q6PP9st3dyIGcF1Tftsr85L5F/view?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-4 px-8 py-4 rounded-full bg-white text-black text-center text-lg font-bold"

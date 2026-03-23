@@ -72,7 +72,7 @@ export default function Experience() {
            transition={{ duration: 0.6, delay: 0.4 }}
            className="mt-16 text-center md:text-left"
         >
-           <a href="https://drive.google.com/file/d/16csUQ4_gSbYuVv4CAe-NFC1gacR7GGe7/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="inline-flex btn-glow px-8 py-4 rounded-full bg-white text-black font-semibold hover:bg-accent-cyan transition-colors duration-300 gap-2">
+           <a href="https://drive.google.com/file/d/1nbldLP8Q6PP9st3dyIGcF1Tftsr85L5F/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="inline-flex btn-glow px-8 py-4 rounded-full bg-white text-black font-semibold hover:bg-accent-cyan transition-colors duration-300 gap-2">
               Download Certificate →
             </a>
         </motion.div>
