@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 interface Achievement {
   title: string
   label: string
-  description: string
+  description: React.ReactNode | string
   tags: string[]
 }
 
@@ -20,6 +20,16 @@ const achievements: Achievement[] = [
     label: '2026',
     description: 'Advanced to Round 3 in Google\'s "The Big Code" Hackathon, competing against top student developers. Demonstrated strong problem-solving skills, teamwork, and real-world project building under competitive conditions.',
     tags: ['Hackathon', 'Problem Solving'],
+  },
+  {
+    title: 'Cybersecurity Platform Ranking — TryHackMe',
+    label: 'JULY 2025',
+    description: (
+      <>
+        Achieved a <span className="font-bold text-accent-cyan">Top 500</span> monthly ranking on TryHackMe, demonstrating consistent performance in cybersecurity challenges, including penetration testing, Linux, networking, and web security. Ranked within the <span className="font-bold text-accent-purple">Top 10,000</span> users in India overall, reflecting strong hands-on skills and continuous learning in real-world security scenarios.
+      </>
+    ),
+    tags: ['Cybersecurity', 'TryHackMe', 'CTF'],
   },
   {
     title: '100+ DSA Problems Solved — LeetCode',
